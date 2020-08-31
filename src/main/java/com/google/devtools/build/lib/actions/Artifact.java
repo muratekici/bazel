@@ -275,7 +275,7 @@ public abstract class Artifact
   public static final Predicate<Artifact> MIDDLEMAN_FILTER = input -> !input.isMiddlemanArtifact();
 
   private final int hashCode;
-  private final ArtifactRoot root;
+  protected final ArtifactRoot root;
   private final PathFragment execPath;
 
   private Artifact(ArtifactRoot root, PathFragment execPath) {
@@ -596,6 +596,10 @@ public abstract class Artifact
    */
   public abstract PathFragment getRootRelativePath();
 
+  public PathFragment getOutputRelativePath() {
+    return getRootRelativePath();
+  }
+
   /** Returns this.getExecPath().getPathString(). */
   @Override
   public final String getExecPathString() {
@@ -715,7 +719,7 @@ public abstract class Artifact
    * runfiles tree. For local targets, it returns the rootRelativePath.
    */
   public final PathFragment getRunfilesPath() {
-    PathFragment relativePath = getRootRelativePath();
+    PathFragment relativePath = getOutputRelativePath();
     if (relativePath.startsWith(LabelConstants.EXTERNAL_PATH_PREFIX)) {
       // Turn external/repo/foo into ../repo/foo.
       relativePath = relativePath.relativeTo(LabelConstants.EXTERNAL_PATH_PREFIX);
@@ -816,11 +820,17 @@ public abstract class Artifact
 
     @Override
     public PathFragment getRootRelativePath() {
-      // flag-less way of checking of the root is <execroot>/.., or sibling of __main__.
-      if (getExecPath().startsWith(LabelConstants.EXPERIMENTAL_EXTERNAL_PATH_PREFIX)) {
-        return LabelConstants.EXTERNAL_PATH_PREFIX.getRelative(getExecPath().subFragment(1));
-      }
+      return !root.getRoot().isAbsolute()
+              && root.getRoot()
+                  .asPath()
+                  .getBaseName()
+                  .equals(LabelConstants.EXTERNAL_PATH_PREFIX.toString())
+          ? getExecPath().subFragment(1)
+          : getExecPath();
+    }
 
+    @Override
+    public PathFragment getOutputRelativePath() {
       return getExecPath();
     }
 
@@ -1241,6 +1251,9 @@ public abstract class Artifact
   public static final Function<Artifact, String> ROOT_RELATIVE_PATH_STRING =
       artifact -> artifact.getRootRelativePath().getPathString();
 
+  public static final Function<Artifact, String> OUTPUT_RELATIVE_PATH_STRING =
+      artifact -> artifact.getOutputRelativePath().getPathString();
+
   /**
    * Converts a collection of artifacts into execution-time path strings, and
    * adds those to a given collection. Middleman artifacts are ignored by this
@@ -1289,6 +1302,16 @@ public abstract class Artifact
   public static Iterable<String> toExecPaths(Iterable<Artifact> artifacts) {
     return Iterables.transform(
         Iterables.filter(artifacts, MIDDLEMAN_FILTER), ActionInput::getExecPathString);
+  }
+
+  public static Iterable<String> toOutputRelativePaths(NestedSet<Artifact> artifacts) {
+    return toOutputRelativePaths(artifacts.toList());
+  }
+
+  public static Iterable<String> toOutputRelativePaths(Iterable<Artifact> artifacts) {
+    return Iterables.transform(
+        Iterables.filter(artifacts, MIDDLEMAN_FILTER),
+        artifact -> artifact.getOutputRelativePath().getPathString());
   }
 
   /**
