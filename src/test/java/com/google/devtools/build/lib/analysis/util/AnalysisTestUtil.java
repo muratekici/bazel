@@ -43,6 +43,7 @@ import com.google.devtools.build.lib.analysis.buildinfo.BuildInfoKey;
 import com.google.devtools.build.lib.analysis.config.BuildConfiguration;
 import com.google.devtools.build.lib.analysis.config.BuildConfigurationCollection;
 import com.google.devtools.build.lib.cmdline.Label;
+import com.google.devtools.build.lib.cmdline.LabelConstants;
 import com.google.devtools.build.lib.cmdline.RepositoryName;
 import com.google.devtools.build.lib.collect.nestedset.NestedSetBuilder;
 import com.google.devtools.build.lib.collect.nestedset.Order;
@@ -506,7 +507,15 @@ public final class AnalysisTestUtil {
     for (Artifact artifact : artifacts) {
       ArtifactRoot root = artifact.getRoot();
       if (root.isSourceRoot()) {
-        files.add("src " + artifact.getRootRelativePath());
+        if (!root.getRoot().isAbsolute()
+            && root.getRoot()
+                .asPath()
+                .getBaseName()
+                .equals(LabelConstants.EXTERNAL_PATH_PREFIX.toString())) {
+          files.add("src(external) " + artifact.getRootRelativePath());
+        } else {
+          files.add("src " + artifact.getRootRelativePath());
+        }
       } else {
         String name = rootMap.getOrDefault(root.getRoot().toString(), "/");
         files.add(name + " " + artifact.getRootRelativePath());
