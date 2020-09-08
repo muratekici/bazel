@@ -346,7 +346,7 @@ public class CcToolchainProviderHelper {
                     ruleContext
                         .getAnalysisEnvironment()
                         .getStarlarkSemantics()
-                        .experimentalSiblingRepositoryLayout());
+                        .getBool(BuildLanguageOptions.EXPERIMENTAL_SIBLING_REPOSITORY_LAYOUT));
       } catch (LabelSyntaxException e) {
         throw new InvalidConfigurationException("The package '" + packageString + "' is not valid");
       }
