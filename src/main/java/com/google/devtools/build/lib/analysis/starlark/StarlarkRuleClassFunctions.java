@@ -14,6 +14,7 @@
 
 package com.google.devtools.build.lib.analysis.starlark;
 
+import static com.google.devtools.build.lib.analysis.BaseRuleClasses.EMBED_LIBRARY;
 import static com.google.devtools.build.lib.analysis.BaseRuleClasses.RUN_UNDER;
 import static com.google.devtools.build.lib.analysis.BaseRuleClasses.getTestRuntimeLabelList;
 import static com.google.devtools.build.lib.packages.Attribute.attr;
@@ -147,7 +148,12 @@ public class StarlarkRuleClassFunctions implements StarlarkRuleFunctionsApi<Arti
   public static final RuleClass binaryBaseRule =
       new RuleClass.Builder("$binary_base_rule", RuleClassType.ABSTRACT, true, baseRule)
           .add(attr("args", STRING_LIST))
+          .add(attr("deneme", STRING_LIST))
           .add(attr("output_licenses", LICENSE))
+          .add(
+              attr(":embed_library", LABEL_LIST)
+                  .cfg(HostTransition.createFactory())
+                  .value(EMBED_LIBRARY))
           .build();
 
   /** Parent rule class for test Starlark rules. */
