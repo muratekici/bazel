@@ -50,7 +50,9 @@ import com.google.devtools.build.lib.packages.Type.ConversionException;
 import com.google.devtools.build.lib.skyframe.serialization.autocodec.AutoCodec;
 import com.google.devtools.build.lib.util.FileTypeSet;
 
-/** Rule class definitions used by (almost) every rule. */
+/**
+ * Rule class definitions used by (almost) every rule.
+ */
 public class BaseRuleClasses {
 
   @AutoCodec @AutoCodec.VisibleForSerialization
@@ -85,7 +87,7 @@ public class BaseRuleClasses {
       LabelListLateBoundDefault.fromTargetConfiguration(
           BuildConfiguration.class,
           (rule, attributes, configuration) -> configuration.getActionListeners());
-
+  
   @AutoCodec
   public static final LabelListLateBoundDefault<?> EMBED_LIBRARY =
       LabelListLateBoundDefault.fromTargetConfiguration(
@@ -147,7 +149,9 @@ public class BaseRuleClasses {
             return runUnder != null ? runUnder.getLabel() : null;
           });
 
-  /** A base rule for all test rules. */
+  /**
+   * A base rule for all test rules.
+   */
   public static final class TestBaseRule implements RuleDefinition {
     @Override
     public RuleClass build(RuleClass.Builder builder, RuleDefinitionEnvironment env) {
@@ -360,7 +364,7 @@ public class BaseRuleClasses {
 
     @Override
     public RuleClass build(RuleClass.Builder builder, RuleDefinitionEnvironment environment) {
-      return nameAttribute(builder).build();
+        return nameAttribute(builder).build();
     }
 
     @Override
@@ -372,7 +376,9 @@ public class BaseRuleClasses {
     }
   }
 
-  /** Common parts of some rules. */
+  /**
+   * Common parts of some rules.
+   */
   public static final class BaseRule implements RuleDefinition {
     @Override
     public RuleClass build(RuleClass.Builder builder, RuleDefinitionEnvironment env) {
@@ -396,7 +402,9 @@ public class BaseRuleClasses {
     }
   }
 
-  /** A rule that contains a {@code variables=} attribute to allow referencing Make variables. */
+  /**
+   * A rule that contains a {@code variables=} attribute to allow referencing Make variables.
+   */
   public static final class MakeVariableExpandingRule implements RuleDefinition {
     @Override
     public RuleClass build(RuleClass.Builder builder, RuleDefinitionEnvironment env) {
@@ -420,7 +428,9 @@ public class BaseRuleClasses {
     }
   }
 
-  /** Common ancestor class for some rules. */
+  /**
+   * Common ancestor class for some rules.
+   */
   public static final class RuleBase implements RuleDefinition {
     @Override
     public RuleClass build(RuleClass.Builder builder, RuleDefinitionEnvironment env) {
