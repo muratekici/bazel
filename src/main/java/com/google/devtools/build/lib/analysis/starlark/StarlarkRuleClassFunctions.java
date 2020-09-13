@@ -148,7 +148,6 @@ public class StarlarkRuleClassFunctions implements StarlarkRuleFunctionsApi<Arti
   public static final RuleClass binaryBaseRule =
       new RuleClass.Builder("$binary_base_rule", RuleClassType.ABSTRACT, true, baseRule)
           .add(attr("args", STRING_LIST))
-          .add(attr("deneme", STRING_LIST))
           .add(attr("output_licenses", LICENSE))
           .add(
               attr(":embed_library", LABEL_LIST)

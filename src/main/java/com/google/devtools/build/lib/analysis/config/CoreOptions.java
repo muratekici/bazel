@@ -395,10 +395,10 @@ public class CoreOptions extends FragmentOptions implements Cloneable {
         OptionEffectTag.AFFECTS_OUTPUTS,
         OptionEffectTag.LOADING_AND_ANALYSIS
       },
-      help = "Location of support library that will be embedded to the targes.")
+      help =
+          "If specified, given library target will be embedded to the targes, "
+              + "Multiple Uses are Accumulated")
   public List<Label> embedLibrary;
-
-  /// asdasdas
 
   @Option(
       name = "experimental_forward_instrumented_files_info_by_default",

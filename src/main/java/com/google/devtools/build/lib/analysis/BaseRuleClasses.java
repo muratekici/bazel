@@ -86,14 +86,11 @@ public class BaseRuleClasses {
           BuildConfiguration.class,
           (rule, attributes, configuration) -> configuration.getActionListeners());
 
-  ///////////////////////////////
-
   @AutoCodec
   public static final LabelListLateBoundDefault<?> EMBED_LIBRARY =
       LabelListLateBoundDefault.fromTargetConfiguration(
           BuildConfiguration.class,
           (rule, attributes, configuration) -> configuration.getEmbedLibrary());
-  ///////////////////////////////
 
   public static final String DEFAULT_COVERAGE_SUPPORT_VALUE = "//tools/test:coverage_support";
 
