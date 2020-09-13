@@ -396,8 +396,8 @@ public class CoreOptions extends FragmentOptions implements Cloneable {
         OptionEffectTag.LOADING_AND_ANALYSIS
       },
       help =
-          "If specified, given library target will be embedded to the targes, "
-              + "Multiple Uses are Accumulated")
+          "If specified, given library will be embedded to the target, "
+              + "multiple uses are accumulated.")
   public List<Label> embedLibrary;
 
   @Option(
