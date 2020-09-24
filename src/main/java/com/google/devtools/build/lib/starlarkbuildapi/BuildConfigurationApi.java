@@ -72,10 +72,4 @@ public interface BuildConfigurationApi extends StarlarkValue {
               + " href=\"ctx.html#coverage_instrumented\"><code>ctx.coverage_instrumented</code></a>"
               + " function.")
   boolean isCodeCoverageEnabled();
-
-  @StarlarkMethod(
-      name = "coverage_mode",
-      structField = true,
-      doc = "Returns the code coverage mode.")
-  String getCodeCoveageMode();
 }

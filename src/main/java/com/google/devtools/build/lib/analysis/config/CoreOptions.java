@@ -377,14 +377,6 @@ public class CoreOptions extends FragmentOptions implements Cloneable {
   public boolean collectCodeCoverage;
 
   @Option(
-      name = "code_coverage_mode",
-      defaultValue = "",
-      documentationCategory = OptionDocumentationCategory.OUTPUT_PARAMETERS,
-      effectTags = {OptionEffectTag.AFFECTS_OUTPUTS},
-      help = "If specified and coverage is enabled, Bazel will instrument code in specified mode.")
-  public String codeCoverageMode;
-
-  @Option(
       name = "embed_library",
       allowMultiple = true,
       defaultValue = "null",

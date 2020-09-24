@@ -656,10 +656,6 @@ public class BuildConfiguration implements BuildConfigurationApi {
     return options.collectCodeCoverage;
   }
 
-  public String getCodeCoveageMode() {
-    return options.codeCoverageMode;
-  }
-
   public List<Label> getEmbedLibrary() {
     return options.embedLibrary;
   }
